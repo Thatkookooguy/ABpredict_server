@@ -1,0 +1,64 @@
+body {
+  background-color: #212121;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.background {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.navbar-brand {
+  font-size: 1.6rem;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.label {
+  color: white;
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.gideon-item {
+  font-size: 1.6rem;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+.textarea {
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  opacity: 0.9;
+}
+
+#kb-form,
+#kb-results {
+  display: none;
+  height: 100vh;
+  width: 100vw;
+}
+#kb-form.kb-is-active,
+#kb-results.kb-is-active {
+  display: block;
+}

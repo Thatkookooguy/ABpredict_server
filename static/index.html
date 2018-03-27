@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>AbPredict</title>
+    <link rel="shortcut icon" href="ab.ico" type="image/x-icon">
+
+
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css'>
+    <link rel='stylesheet prefetch' href='https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css'>
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Indie+Flower|Lato|Montserrat|Open+Sans'>
+    <link rel='stylesheet prefetch' href='https://rawgit.com/Wikiki/bulma-pageloader/master/dist/bulma-pageloader.min.css'>
+
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <div id="kb-loader" class="pageloader is-active">
+      <span class="title">Getting your protein shaked...</span>
+    </div>
+    <div id="kb-form">
+      <canvas class="background"></canvas>
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="https://bulma.io">
+        Abpredict
+      </a>
+
+          <button class="button navbar-burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+        </div>
+      </nav>
+      <div class="container">
+        <div class="card">
+          <div class="card-content">
+            <div class="content">
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input gl-email" type="email" placeholder="Email input" value="joe@academia.ac.il">
+                  <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+                  <span class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+              </span>
+                </div>
+              </div>
+              <div class="file fileupload-button" action="upload.php">
+                <label class="file-label" for="fileinput">
+
+              <input id="fileinput" class="file-input gl-file" type="file" name="resume">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Choose a file…
+                </span>
+              </span>
+            </label>
+              </div>
+              <div class="field">
+                <label class="label">Fasta</label>
+                <div class="control">
+                  <textarea id="textareabox" type="text" class="textarea gl-fasta" placeholder=">Header
+ASJDKASJKDAJSKDJASKDASJDKASD" onfocusout="validateDNA(document.getElementById('textareabox').value)"></textarea>
+                  <div id="charNum"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <footer class="card-footer">
+            <div class="control">
+              <button class="button submit-button">Submit</button>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div id="kb-results">results!</div>
+    <!-- SCRIPTS -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.1.0/particles.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+
+    <script src="js/index.js"></script>
+  </body>
+</html>
