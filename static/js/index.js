@@ -53,22 +53,45 @@ window.onload = function() {
     minDistance: 80
   }); */
 
-  $('#file-upload').change(function() {
-    var i = $(this).prev('label').clone();
-    var file = $('#file-upload')[0].files[0].name;
-    $(this).prev('label').text(file);
-  });
+
+
+$('#file-test').change(function() {
+  var i = $(this).prev('label').clone();
+  var file = $('#file-test')[0].files[0].name;
+var $jsName = document.querySelector('.name');
+var $jsValue = document.querySelector('.jsValue');
+
+  $jsValue.innerHTML = file;
+});
+
 
 
   $('.submit-button').click(() => {
     var email = $('.gl-email').val();
     var fasta = $('.gl-fasta').val();
-    var file = document.getElementById('fileinput').files[0];
-//    console.log("filename:")
-//    console.log(document.getElementById('fileinput').name);
+    var file = document.getElementById('file-test').files[0];
 
-    if (!file) {
-      console.log('use fasta instead');
+    if (!file && !fasta) {
+      // Get the modal
+	var modal = document.getElementById('myModal');
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	
+	    modal.style.display = "block";
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	    modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+		modal.style.display = "none";
+	    }
+	}
+
       return;
     }
 

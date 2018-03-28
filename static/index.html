@@ -51,27 +51,29 @@
                 </div>
               </div>
               <div class="file fileupload-button" action="upload.php">
-                <label class="file-label" for="fileinput">
+                <label class="file-test" for="file-test">
 
-              <input id="fileinput" class="file-input gl-file" type="file" name="resume">
+              <input id="file-test" class="file-input gl-file" type="file" name="fasta_file">
               <span class="file-cta">
                 <span class="file-icon">
                   <i class="fas fa-upload"></i>
                 </span>
-                <span class="file-label">
-                  Choose a file…
-                </span>
+                <i class="file-test">Choose a file…</i>
               </span>
             </label>
               </div>
+
+ <span class="jsValue"></span>
               <div class="field">
-                <label class="label">Fasta</label>
+                <label id="test" class="label">Fasta</label>
                 <div class="control">
                   <textarea id="textareabox" type="text" class="textarea gl-fasta" placeholder=">Header
 ASJDKASJKDAJSKDJASKDASJDKASD" onfocusout="validateDNA(document.getElementById('textareabox').value)"></textarea>
                   <div id="charNum"></div>
                 </div>
               </div>
+
+
 
             </div>
           </div>
@@ -84,6 +86,19 @@ ASJDKASJKDAJSKDJASKDASJDKASD" onfocusout="validateDNA(document.getElementById('t
       </div>
     </div>
     <div id="kb-results">results!</div>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Please enter either text of upload file</p>
+  </div>
+
+</div>
+
     <!-- SCRIPTS -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.1.0/particles.min.js'></script>
