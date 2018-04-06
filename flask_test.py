@@ -1,6 +1,12 @@
+
 from flask import Flask
 from flask import request
 from flask import jsonify
+from csvmapper import FieldMapper, CSVParser
+import csvmapper
+
+
+Rosetta_path="/home/gideonla/ABpredict_server"
 
 app = Flask(__name__, static_url_path='')
 
@@ -31,9 +37,24 @@ def display_results():
 	# check if job exists
 	# get and send result or send error
 	#make a jason object that returns pdb coordinats and data for graphs
-	jobId = request.args.get('jobId')
-	print (jobId)
-	return jsonify(
-        username="bla"
 
-    )
+	jobId = request.args.get('jobId')
+	print ("jobID:", jobId)
+	return jsonify(pdb=get_pdb_by_jobId(jobId),data=convert_model_stats_to_json(jobId))
+
+def get_pdb_by_jobId(jobId):
+	with open(Rosetta_path+"/"+jobId+"/top_models/model1.pdb", 'r') as myfile:
+		data=myfile.read()
+	return data
+
+def convert_model_stats_to_json(jobId):
+	with open(Rosetta_path+"/"+jobId+"/CDR_CO_RMS/cdr_co_rms", 'r') as myfile:
+		data=myfile.read()
+	return data
+#	parser = CSVParser(Rosetta_path+"/"+jobId+"/CDR_CO_RMS/cdr_co_rms",hasHeader=True)
+#	converter = csvmapper.JSONConverter(parser) 
+#	return converter.doConvert(pretty=True)
+
+
+
+	

@@ -23,9 +23,7 @@
       <canvas class="background"></canvas>
       <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" href="https://bulma.io">
-        Abpredict
-      </a>
+          <a class="navbar-item" >Abpredict</a>
 
           <button class="button navbar-burger">
         <span></span>
@@ -41,7 +39,8 @@
               <div class="field">
                 <label class="label">Email</label>
                 <div class="control has-icons-left has-icons-right">
-                  <input class="input gl-email" type="email" placeholder="Email input" value="joe@academia.ac.il">
+                  <input class="input gl-email" id="email" type="email" placeholder="Email input" value="joe@academia.ac.il" onfocusout="validateEmail(document.getElementById('email').value)">
+	 <div id="email_msg"></div>
                   <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
@@ -63,7 +62,7 @@
             </label>
               </div>
 
- <span class="jsValue"></span>
+ <span class="jsValue"></span><!-- Shows the name of the uploaded file -->
               <div class="field">
                 <label id="test" class="label">Fasta</label>
                 <div class="control">
@@ -94,7 +93,7 @@ ASJDKASJKDAJSKDJASKDASJDKASD" onfocusout="validateDNA(document.getElementById('t
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <p>Please enter either text of upload file</p>
+    <p class="mod_value">>Please enter either text of upload file</p>
   </div>
 
 </div>

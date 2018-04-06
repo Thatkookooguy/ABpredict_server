@@ -1,5 +1,12 @@
 var jobData;
 
+
+var $mod_value = document.querySelector('.mod_value');
+
+  $mod_value.innerHTML = "Upload fasta file or fill in text";
+
+
+
 $(document).ready(onReady);
 
 function onReady() {
@@ -56,6 +63,7 @@ window.onload = function() {
 
 
 $('#file-test').change(function() {
+	console.log("file uploaded")
   var i = $(this).prev('label').clone();
   var file = $('#file-test')[0].files[0].name;
 var $jsName = document.querySelector('.name');
@@ -119,6 +127,9 @@ var $jsValue = document.querySelector('.jsValue');
 };
 
 function validateDNA(seq) {
+   var t = document.getElementById('textareabox');
+    t.style.borderColor = 'black';
+    t.style.borderWidth = "thin";
   // immediately remove trailing spaces
   seq = seq.trim();
   console.log(typeof seq);
@@ -130,10 +141,11 @@ function validateDNA(seq) {
     // remove one line, starting at the first position
     lines.splice(0, 1);
   } else {
-    //The seq string contains only GATC
+
     $('#charNum').text("Not correct fasta form. Please see help");
-    var t = document.getElementById('textareabox');
-    t.style.backgroundColor = 'red';
+
+    t.style.borderColor = 'red';
+
     document.getElementById("charNum").style.color = 'red';
 
 
@@ -176,4 +188,23 @@ function getParameterByName(name, url) {
   if (!results) return null;
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function validateEmail(email) {
+   var e = document.getElementById('email');
+    e.style.borderColor = 'black';
+    $('#email_msg').text("");
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	console.log( re.test(email))
+  if (! re.test(email)){
+  //The seq string contains only GATC
+    $('#email_msg').text("Not correct email format");
+
+    e.style.borderColor = 'red';
+    document.getElementById("email_msg").style.color = 'red';
+
+
+    return false;
+}
+return true;
 }
