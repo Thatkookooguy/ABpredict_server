@@ -39,7 +39,7 @@
               <div class="field">
                 <label class="label">Email</label>
                 <div class="control has-icons-left has-icons-right">
-                  <input class="input gl-email" id="email" type="email" placeholder="Email input" value="joe@academia.ac.il" onfocusout="validateEmail(document.getElementById('email').value)">
+                  <input class="input gl-email" id="email" type="email" placeholder="joe@academia.ac.il" onfocusout="validateEmail(document.getElementById('email').value)">
 	 <div id="email_msg"></div>
                   <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
@@ -84,7 +84,10 @@ ASJDKASJKDAJSKDJASKDASJDKASD" onfocusout="validateDNA(document.getElementById('t
         </div>
       </div>
     </div>
-    <div id="kb-results">results!</div>
+    <div id="kb-results">
+      <h1>Results</h1>
+      <div id="viewer"></div>
+    </div>
 
 
 <!-- The Modal -->
@@ -102,6 +105,7 @@ ASJDKASJKDAJSKDJASKDASJDKASD" onfocusout="validateDNA(document.getElementById('t
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.1.0/particles.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+    <script src="https://rawgit.com/biasmv/pv/master/bio-pv.min.js"></script>
 
     <script src="js/index.js"></script>
   </body>

@@ -4,6 +4,9 @@ from flask import request
 from flask import jsonify
 from csvmapper import FieldMapper, CSVParser
 import csvmapper
+import pandas as pd
+from flask import send_file
+
 
 
 Rosetta_path="/home/gideonla/ABpredict_server"
@@ -39,8 +42,13 @@ def display_results():
 	#make a jason object that returns pdb coordinats and data for graphs
 
 	jobId = request.args.get('jobId')
-	print ("jobID:", jobId)
-	return jsonify(pdb=get_pdb_by_jobId(jobId),data=convert_model_stats_to_json(jobId))
+	return jsonify(pdb=get_pdb_by_jobId(jobId),stats=convert_model_stats_to_json(jobId))
+
+@app.route('/pdbs', methods = ['GET'])
+def return_pdb():
+	jobId = request.args.get('jobId')
+	return send_file(Rosetta_path+"/"+jobId+"/top_models/model1.pdb")
+
 
 def get_pdb_by_jobId(jobId):
 	with open(Rosetta_path+"/"+jobId+"/top_models/model1.pdb", 'r') as myfile:
@@ -48,13 +56,6 @@ def get_pdb_by_jobId(jobId):
 	return data
 
 def convert_model_stats_to_json(jobId):
-	with open(Rosetta_path+"/"+jobId+"/CDR_CO_RMS/cdr_co_rms", 'r') as myfile:
-		data=myfile.read()
+	parser = CSVParser(Rosetta_path+"/"+jobId+"/CDR_CO_RMS/cdr_co_rms",hasHeader=True)
+	data = parser.buildDict()
 	return data
-#	parser = CSVParser(Rosetta_path+"/"+jobId+"/CDR_CO_RMS/cdr_co_rms",hasHeader=True)
-#	converter = csvmapper.JSONConverter(parser) 
-#	return converter.doConvert(pretty=True)
-
-
-
-	
