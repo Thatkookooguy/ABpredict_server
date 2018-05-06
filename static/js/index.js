@@ -39,19 +39,50 @@ function parseResultsFromJson(jobId, obj) {
   antialias: true,
   quality : 'medium'
 };
-// insert the viewer under the Dom element with id 'gl'.
+// insert the viewer under the Dom element with id 'viewer'.
 var viewer = pv.Viewer(document.getElementById('viewer'), options);
-pv.io.fetchPdb('pdbs?jobId=' + jobId,function(structure){
-  console.log('what what');
-  viewer.cartoon('protein',structure, {
-    color: color.ssSuccession()
-  });
 
-  var ligands = structure.select({ rnames: ['SAH', 'RVP']});
-  viewer.ballsAndSticks('ligands', ligands);
-  viewer.centerOn(structure);
+var ENSEMBLE = null;
+var activeIndex = 0;
+
+
+viewer.on('viewerReady', function() {
+  io.fetchPdb('pdbs?jobId=' + jobId, function(structures) {
+    viewer.clear()
+    var i = 0;
+    ENSEMBLE = structures.map(function(a) {
+      return viewer.lines('ensemble.' + i++, a);
+    });
+    updateVisibility();
+    viewer.autoZoom();
+  }, { loadAllModels : true } );
 });
+
+function updateVisibility() {
+  ENSEMBLE.forEach(function(a) { a.hide(); });
+  ENSEMBLE[activeIndex].show();
+  viewer.requestRedraw();
 }
+
+document.addEventListener('keypress', function(ev) {
+  if (String.fromCharCode(ev.charCode) === 'n') {
+    console.log("blabla")
+    activeIndex = (activeIndex + 1)  % ENSEMBLE.length;
+    updateVisibility();
+  }
+  if (String.fromCharCode(ev.charCode) === 'p') {
+    // make sure we never calculate modulo on negative value
+    activeIndex = (activeIndex - 1 + ENSEMBLE.length)  % ENSEMBLE.length;
+    updateVisibility();
+  }
+  if (String.fromCharCode(ev.charCode) === 'e') {
+    ENSEMBLE.forEach(function(a) { a.show(); });
+    viewer.requestRedraw();
+  }
+});
+
+}
+
 
 function showView(viewName) {
   if (viewName === 'results') {
