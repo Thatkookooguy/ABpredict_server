@@ -58,4 +58,5 @@ def get_pdb_by_jobId(jobId):
 def convert_model_stats_to_json(jobId):
 	parser = CSVParser(Rosetta_path+"/production_run/"+jobId+"/CDR_CO_RMS/cdr_co_rms",hasHeader=True)
 	data = parser.buildDict()
+	print (type(data))
 	return data

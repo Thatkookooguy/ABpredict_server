@@ -33,53 +33,38 @@ function onReady() {
 }
 
 function parseResultsFromJson(jobId, obj) {
-  var options = {
-  width: 600,
-  height: 600,
-  antialias: true,
-  quality : 'medium'
-};
-// insert the viewer under the Dom element with id 'viewer'.
-var viewer = pv.Viewer(document.getElementById('viewer'), options);
+  var dataPoints = [];
 
-var ENSEMBLE = null;
-var activeIndex = 0;
-
-
-viewer.on('viewerReady', function() {
-  io.fetchPdb('pdbs?jobId=' + jobId, function(structures) {
-    viewer.clear()
-    var i = 0;
-    ENSEMBLE = structures.map(function(a) {
-      return viewer.lines('ensemble.' + i++, a);
-    });
-    updateVisibility();
-    viewer.autoZoom();
-  }, { loadAllModels : true } );
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "Daily Sales Data"
+	},
+	axisY: {
+		title: "Units",
+		titleFontSize: 24
+	},
+	data: [{
+		type: "scatter",
+		yValueFormatString: "#,### Units",
+		dataPoints: dataPoints
+	}]
 });
 
-function updateVisibility() {
-  ENSEMBLE.forEach(function(a) { a.hide(); });
-  ENSEMBLE[activeIndex].show();
-  viewer.requestRedraw();
+function addData(data) {
+	for (var i = 0; i < data.length; i++) {
+		dataPoints.push({
+			x: new Date(data[i].date),
+			y: data[i].units
+		});
+	}
+	chart.render();
+
 }
 
-document.addEventListener('keypress', function(ev) {
-  if (String.fromCharCode(ev.charCode) === 'n') {
-    console.log("blabla")
-    activeIndex = (activeIndex + 1)  % ENSEMBLE.length;
-    updateVisibility();
-  }
-  if (String.fromCharCode(ev.charCode) === 'p') {
-    // make sure we never calculate modulo on negative value
-    activeIndex = (activeIndex - 1 + ENSEMBLE.length)  % ENSEMBLE.length;
-    updateVisibility();
-  }
-  if (String.fromCharCode(ev.charCode) === 'e') {
-    ENSEMBLE.forEach(function(a) { a.show(); });
-    viewer.requestRedraw();
-  }
-});
+$.getJSON("daily-sales-data.json", addData);
+
 
 }
 
