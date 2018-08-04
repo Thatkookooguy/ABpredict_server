@@ -1,13 +1,93 @@
 var jobData;
 
-
-var $mod_value = document.querySelector('.mod_value');
-
-$mod_value.innerHTML = "Upload fasta file or fill in text";
-
-
-
 $(document).ready(onReady);
+
+$('#remove-file').click(function() {
+  $('#file-input').val('');
+  onFileChange();
+});
+
+window.Parsley.on('field:validated', function(pp) {
+  var formInstance = $('form#fasta-form').parsley();
+  const isValidatorsGood = formInstance.isValid();
+
+  if (!isValidatorsGood) {
+    $('button#form-submit').prop("disabled", true);
+    return;
+  }
+
+  const gotFile = $('#file-input').val();
+  const gotText = $('#textareabox').val();
+
+  if ((gotFile && gotText) || (!gotFile && !gotText)) {
+    console.log('incorrect number of fasta inputs');
+    $('button#form-submit').prop("disabled", true);
+    return;
+  }
+
+  if (gotFile) {
+    const fileObject = $('#file-input')[0].files[0];
+
+    var fileReader = new FileReader();
+    fileReader.onload = function(e) {
+      var fileContent = e.target.result;
+
+      if (validateDNA(fileContent)) {
+        console.log('file is VALID');
+        $('button#form-submit').prop("disabled", false);
+        return
+      } else {
+        console.log('file is NOT valid');
+
+        $('button#form-submit').prop("disabled", true);
+        return
+      }
+    };
+
+    fileReader.readAsText(fileObject);
+
+    return;
+  } else {
+    $('button#form-submit').prop("disabled", false);
+    return;
+  }
+});
+
+window.ParsleyValidator
+  .addValidator('fastafile', function(value) {
+    const fileInput = $('#file-input')[0];
+
+    const fileInputFileType = fileInput.files ?
+      fileInput.files[0].type :
+      'no-file';
+
+    return fileInputFileType === 'text/plain';
+  })
+  .addMessage('en', 'fileextension', 'File type is invalid');
+
+window.ParsleyValidator
+  .addValidator('fastaformat', function(value) {
+    return validateDNA(value);
+  })
+  .addMessage('en', 'fastaformat', 'text is not a valid FASTA');
+
+document.getElementById('file-input').onchange = onFileChange;
+
+
+function onFileChange() {
+  const removeBtn = $('#remove-file');
+  if (_.get(this, 'files[0]')) {
+    removeBtn.css({
+      display: 'flex'
+    });
+  } else {
+    removeBtn.attr('style', '');
+  }
+  $('label.file-label .file-label')
+    .text(_.get(this, 'files[0].name') || 'Choose a file…');
+
+  $('#file-input').parsley().isValid();
+};
 
 function onReady() {
   // based on url
@@ -16,7 +96,7 @@ function onReady() {
     getDataFromServer(jobId)
       .then(function(results) {
         jobData = results;
-        console.log(jobData);
+        //        console.log(jobData);
         parseResultsFromJson(jobId, jobData);
         showView('results');
       })
@@ -32,40 +112,122 @@ function onReady() {
   });
 }
 
-function parseResultsFromJson(jobId, obj) {
-  var dataPoints = [];
+function parseResultsFromJson(jobId, jobData) {
+  var options = {
+    background: 'black',
+  };
+  // insert the viewer under the Dom element with id 'gl'.
+  var viewer = pv.Viewer(document.getElementById('viewer'), options);
 
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,
-	theme: "light2",
-	title: {
-		text: "Daily Sales Data"
-	},
-	axisY: {
-		title: "Units",
-		titleFontSize: 24
-	},
-	data: [{
-		type: "scatter",
-		yValueFormatString: "#,### Units",
-		dataPoints: dataPoints
-	}]
-});
+  pv.io.fetchPdb(`pdbs?jobId=${ jobId }`, function(structure) {
+    // display the protein as cartoon, coloring the secondary structure
+    // elements in a rainbow gradient.
+    viewer.cartoon('protein', structure, {
+      color: color.ssSuccession()
+    });
+    // there are two ligands in the structure, the co-factor S-adenosyl
+    // homocysteine and the inhibitor ribavirin-5' triphosphate. They have
+    // the three-letter codes SAH and RVP, respectively. Let's display them
+    // with balls and sticks.
+    var ligands = structure.select({
+      rnames: ['SAH', 'RVP']
+    });
+    viewer.ballsAndSticks('ligands', ligands);
+    viewer.centerOn(structure);
+  });
 
-function addData(data) {
-	for (var i = 0; i < data.length; i++) {
-		dataPoints.push({
-			x: new Date(data[i].date),
-			y: data[i].units
-		});
-	}
-	chart.render();
+  $('#results [job-id]').text(jobId);
 
+  drawGraphs(jobData.stats);
 }
 
-$.getJSON("daily-sales-data.json", addData);
+function drawGraphs(data) {
+  drawGraph(data, 'Energy', 'H1');
+  drawGraph(data, 'Energy', 'H2');
+  drawGraph(data, 'Energy', 'H3');
+}
 
+function drawGraph(data, attrX, attrY) {
+  var margin = {
+      top: 20,
+      right: 20,
+      bottom: 30,
+      left: 40
+    },
+    width = 500 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
+  var x = d3.scale.linear()
+    .range([0, width]);
+
+  var y = d3.scale.linear()
+    .range([height, 0]);
+
+  var color = d3.scale.category10();
+
+  var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+  var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+  var svg = d3.select("#chartContainer").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  data.forEach(function(d) {
+    d[attrY] = +d[attrY];
+    d[attrX] = +d[attrX];
+  });
+
+  x.domain(d3.extent(data, function(d) {
+    return d[attrX];
+  })).nice();
+  y.domain(d3.extent(data, function(d) {
+    return d[attrY];
+  })).nice();
+
+  svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+    .append("text")
+    .attr("class", "label")
+    .attr("x", 6)
+    .attr("y", width)
+    .attr("transform", "rotate(-90)")
+    // .style("text-anchor", "end")
+    .text(`${ attrX } RMS (Ang)`);
+
+  svg.append("g")
+    .attr("class", "y axis")
+    .call(yAxis)
+    .append("text")
+    .attr("class", "label")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 6)
+    .attr("dy", ".71em")
+    .style("text-anchor", "end")
+    .text(`${ attrY } RMS (Ang)`);
+
+  svg.selectAll(".dot")
+    .data(data)
+    .enter().append("circle")
+    .attr("class", "dot")
+    .attr("r", 3.5)
+    .attr("cx", function(d) {
+      return x(d[attrX]);
+    })
+    .attr("cy", function(d) {
+      return y(d[attrY]);
+    })
+    .style("fill", function(d) {
+      return color(d[attrY]);
+    });
 }
 
 
@@ -165,58 +327,27 @@ window.onload = function() {
 };
 
 function validateDNA(seq) {
-  var t = document.getElementById('textareabox');
-  t.style.borderColor = 'black';
-  t.style.borderWidth = "thin";
-  // immediately remove trailing spaces
   seq = seq.trim();
-  console.log(typeof seq);
   // split on newlines...
   var lines = seq.split('\n');
 
   // check for header
-  if (seq[0] == '>') {
-    // remove one line, starting at the first position
-    lines.splice(0, 1);
-  } else {
-
-    $('#charNum').text("Not correct fasta form. Please see help");
-
-    t.style.borderColor = 'red';
-
-    document.getElementById("charNum").style.color = 'red';
-
-
+  if (seq[0] !== '>') {
     return false;
   }
+
+  // remove one line, starting at the first position
+  lines.splice(0, 1);
 
   // join the array back into a single string without newlines and
   // trailing or leading spaces
   seq = lines.join('').trim();
-  console.log(seq);
+
   //Search for charaters that are not G, A, T or C.
   if ((seq.search(/[^ACDEFGHIKLMNPQRSTVWY\s]/i) != -1) || (!seq) || (0 === seq.length)) {
-    //The seq string contains non-DNA characters
-    $('#charNum').text("Not correct fasta form. Please see help");
-    var t = document.getElementById('textareabox');
-    t.style.backgroundColor = 'red';
-    document.getElementById("charNum").style.color = 'red';
-
-
     return false;
-    /// The next line can be used to return a cleaned version of the DNA
-    /// return seq.replace(/[^gatcGATC]/g, "");
-  } else {
-    var t = document.getElementById('textareabox');
-    var s = document.getElementById('charNum');
-    t.style.backgroundColor = 'white';
-    $('#charNum').text("");
-    document.getElementById("charNum").style.color = 'red';
-
-    console.log("valid dna seq")
-    return true;
   }
-
+  return true;
 };
 
 function getParameterByName(name, url) {

@@ -47,16 +47,16 @@ def display_results():
 @app.route('/pdbs', methods = ['GET'])
 def return_pdb():
 	jobId = request.args.get('jobId')
-	return send_file(Rosetta_path+"/production_run/"+jobId+"/top_models/tmp.pdb")
+	return send_file("./production_run/"+jobId+"/top_models/tmp.pdb")
 
 
 def get_pdb_by_jobId(jobId):
-	with open(Rosetta_path+"/production_run/"+jobId+"/top_models/tmp.pdb", 'r') as myfile:
+	with open("./production_run/"+jobId+"/top_models/tmp.pdb", 'r') as myfile:
 		data=myfile.read()
 	return data
 
 def convert_model_stats_to_json(jobId):
-	parser = CSVParser(Rosetta_path+"/production_run/"+jobId+"/CDR_CO_RMS/cdr_co_rms",hasHeader=True)
+	parser = CSVParser("./production_run/"+jobId+"/CDR_CO_RMS/cdr_co_rms",hasHeader=True)
 	data = parser.buildDict()
 	print (type(data))
 	return data

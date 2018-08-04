@@ -6,11 +6,11 @@
     <title>AbPredict</title>
     <link rel="shortcut icon" href="ab.ico" type="image/x-icon">
 
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css'>
     <link rel='stylesheet prefetch' href='https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css'>
     <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Indie+Flower|Lato|Montserrat|Open+Sans'>
-    <link rel='stylesheet prefetch' href='https://rawgit.com/Wikiki/bulma-pageloader/master/dist/bulma-pageloader.min.css'>
+    <link rel='stylesheet prefetch' href='//rawgit.com/Wikiki/bulma-pageloader/master/dist/css/bulma-pageloader.min.css'>
 
     <link rel="stylesheet" href="css/style.css">
   </head>
@@ -20,95 +20,105 @@
       <span class="title">Getting your protein shaked...</span>
     </div>
     <div id="kb-form">
-      <canvas class="background"></canvas>
       <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" >Abpredict</a>
-
-          <button class="button navbar-burger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+          <a class="navbar-item">Abpredict</a>
         </div>
       </nav>
-      <div class="container">
+      <form id="fasta-form" class="container" data-parsley-validate>
         <div class="card">
           <div class="card-content">
             <div class="content">
               <div class="field">
                 <label class="label">Email</label>
-                <div class="control has-icons-left has-icons-right">
-                  <input class="input gl-email" id="email" type="email" placeholder="joe@academia.ac.il" onfocusout="validateEmail(document.getElementById('email').value)">
-	 <div id="email_msg"></div>
+                <div class="control has-icons-left">
+                  <input class="input gl-email" id="email" type="email" placeholder="joe@academia.ac.il" data-parsley-trigger="change" data-parsley-required="true" data-parsley-type="email">
+                  <div id="email_msg"></div>
                   <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
-                  <span class="icon is-small is-right">
-                <i class="fas fa-exclamation-triangle"></i>
-              </span>
                 </div>
               </div>
-              <div class="file fileupload-button" action="upload.php">
-                <label class="file-test" for="file-test">
 
-              <input id="file-test" class="file-input gl-file" type="file" name="fasta_file">
-              <span class="file-cta">
-                <span class="file-icon">
-                  <i class="fas fa-upload"></i>
-                </span>
-                <i class="file-test">Choose a file…</i>
-              </span>
-            </label>
-              </div>
-
- <span class="jsValue"></span><!-- Shows the name of the uploaded file -->
               <div class="field">
                 <label id="test" class="label">Fasta</label>
                 <div class="control">
+                  <div class="file">
+                    <label class="file-label">
+                      <input id="file-input" class="file-input" type="file" name="resume"
+                        data-parsley-trigger="change"
+                        data-parsley-fastafile="">
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Choose a file…
+                        </span>
+                      </span>
+                    </label>
+                    <a class="remove-file" id="remove-file">
+                    <i class="fas fa-times-circle"></i>
+                  </a>
+                  </div>
+                </div>
+                <div class="control  has-icons-left has-icons-right">
                   <textarea id="textareabox" type="text" class="textarea gl-fasta" placeholder=">Header
-ASJDKASJKDAJSKDJASKDASJDKASD" onfocusout="validateDNA(document.getElementById('textareabox').value)"></textarea>
+ASJDKASJKDAJSKDJASKDASJDKASD" data-parsley-trigger="change" data-parsley-fastaformat=""></textarea>
                   <div id="charNum"></div>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-dna"></i>
+                  </span>
                 </div>
               </div>
 
-
+              <div class="field">
+                <div class="control">
+                  <label class="checkbox">
+                    <input type="checkbox"
+                    name="TOS"
+                    data-parsley-trigger="change"
+                    data-parsley-required="true"
+                    data-parsley-mincheck="1">
+                    I agree to the <a href="/FuncLib_TermsOfUse.pdf" target="_blank">Terms of Services</a>
+                  </label>
+                </div>
+              </div>
 
             </div>
           </div>
           <footer class="card-footer">
             <div class="control">
-              <button class="button submit-button">Submit</button>
+              <button id="form-submit" class="button submit-button" disabled>Submit</button>
             </div>
           </footer>
         </div>
-      </div>
+        </from>
     </div>
     <div id="kb-results">
-      <div id="viewer"></div>
-      <div id="chartContainer" style="height: 500px; width: 50%;"></div>
+      <div class="kb-results-header">
+        <div id="viewer"></div>
+      </div>
+      <div class="content">
+        <h2>JOB ID #<span job-id></span></h2>
+        <div id="chartContainer" style="600px;">
+        </div>
+      </div>
 
     </div>
-
-<!-- The Modal -->
-<div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p class="mod_value">>Please enter either text of upload file</p>
-  </div>
-
-</div>
 
     <!-- SCRIPTS -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/2.8.1/parsley.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.1.0/particles.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
     <script src="https://rawgit.com/biasmv/pv/master/bio-pv.min.js"></script>
-    <script type="text/javascript" src="canvasjs-2.1.2/canvasjs.min.js"></script>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="canvasjs.min.js"></script>
 
 
     <script src="js/index.js"></script>
   </body>
+
 </html>
