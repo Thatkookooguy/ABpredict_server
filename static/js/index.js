@@ -118,7 +118,6 @@ function parseResultsFromJson(jobId, jobData) {
   };
   // insert the viewer under the Dom element with id 'gl'.
   var viewer = pv.Viewer(document.getElementById('viewer'), options);
-
   pv.io.fetchPdb(`pdbs?jobId=${ jobId }`, function(structure) {
     // display the protein as cartoon, coloring the secondary structure
     // elements in a rainbow gradient.
@@ -248,6 +247,14 @@ function showView(viewName) {
 function onDataReady() {
 
 }
+let kbresultsheader = $('.kb-results-header');
+
+kbresultsheader.click(onClick);
+
+
+function onClick() {
+  kbresultsheader.toggleClass('button-clicked');
+}
 
 function getDataFromServer(jobId) {
   return axios.get(`/results?jobId=${jobId}`)
@@ -281,30 +288,6 @@ window.onload = function() {
     var fasta = $('.gl-fasta').val();
     var file = document.getElementById('file-test').files[0];
 
-    if (!file && !fasta) {
-      // Get the modal
-      var modal = document.getElementById('myModal');
-
-      // Get the <span> element that closes the modal
-      var span = document.getElementsByClassName("close")[0];
-
-
-      modal.style.display = "block";
-      // When the user clicks on <span> (x), close the modal
-      span.onclick = function() {
-        modal.style.display = "none";
-      }
-
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-      }
-
-      return;
-    }
-
     var r = new FileReader();
     r.onload = function(e) {
       var contents = e.target.result;
@@ -317,7 +300,7 @@ window.onload = function() {
         name: 'default'
       };
 
-      axios.post('/antibody/1234', serverPostData)
+      axios.post('/antibody/', serverPostData)
         .then(function(response) {
           console.log(response);
         });

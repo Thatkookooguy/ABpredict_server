@@ -67,6 +67,10 @@ html, body {
   background: black;
   width: 100vw;
 }
+  .button-clicked {
+      background: pink;
+  }
+
 
 #viewer {
   height: 60vh;
@@ -74,7 +78,7 @@ html, body {
 }
 
 #viewer canvas {
-  width: 100vw;
+  width: 10vw;
 }
 
 #kb-form, #kb-results {
