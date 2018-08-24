@@ -247,13 +247,13 @@ function showView(viewName) {
 function onDataReady() {
 
 }
+
+//this code change viewer perspective when clicking the viewer
 let kbresultsheader = $('.kb-results-header');
-
 kbresultsheader.click(onClick);
-
-
 function onClick() {
   kbresultsheader.toggleClass('button-clicked');
+  $('#viewer').addClass('viewer-button-clicked');
 }
 
 function getDataFromServer(jobId) {
