@@ -72,18 +72,16 @@ html, body {
   }
 
 
-#viewer {
+.viewer-class {
   height: 60vh;
   overflow: hidden;
 }
 
 .viewer-button-clicked {
-    height: 100vh !important;
+    height: 100vh;
 }
 
-#viewer canvas {
-  width: 60vw;
-}
+
 
 #kb-form, #kb-results {
   display: none;

@@ -253,7 +253,10 @@ let kbresultsheader = $('.kb-results-header');
 kbresultsheader.click(onClick);
 function onClick() {
   kbresultsheader.toggleClass('button-clicked');
-  $('#viewer').addClass('viewer-button-clicked');
+  $('.viewer-class').toggleClass('viewer-button-clicked');
+  var canvas = document.getElementById('viewer');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
 
 function getDataFromServer(jobId) {

@@ -21,15 +21,14 @@ def hello_world():
 
 
 
-@app.route('/antibody/<user_id>', methods = ['POST'])
-def user(user_id):
+@app.route('/antibody/', methods = ['POST'])
+def user():
 	request.method == 'POST'
 	content = request.get_json(silent=0)
 	print (content['email'])
 	print (content['name'])
 	print (content['fasta'])
 
-	print(user_id)
 	return 'OK'
 
 # Add function to run Rosetta
