@@ -1,4 +1,6 @@
 var jobData;
+var jobId;
+var viewer;
 
 $(document).ready(onReady);
 
@@ -91,7 +93,7 @@ function onFileChange() {
 
 function onReady() {
   // based on url
-  const jobId = getParameterByName('jobId', window.location.href);
+  jobId = getParameterByName('jobId', window.location.href);
   if (jobId) {
     getDataFromServer(jobId)
       .then(function(results) {
@@ -113,11 +115,15 @@ function onReady() {
 }
 
 function parseResultsFromJson(jobId, jobData) {
+  $('#viewer').empty();
+  var canvasParent = document.getElementById('viewer');
   var options = {
     background: 'black',
+    width: canvasParent.clientWidth,
+    height: canvasParent.clientHeight
   };
   // insert the viewer under the Dom element with id 'gl'.
-  var viewer = pv.Viewer(document.getElementById('viewer'), options);
+  viewer = pv.Viewer(document.getElementById('viewer'), options);
   pv.io.fetchPdb(`pdbs?jobId=${ jobId }`, function(structure) {
     // display the protein as cartoon, coloring the secondary structure
     // elements in a rainbow gradient.
@@ -250,14 +256,27 @@ function onDataReady() {
 
 //this code change viewer perspective when clicking the viewer
 let kbresultsheader = $('.kb-results-header');
-kbresultsheader.click(onClick);
+let enlargeButton = $('#enlarge-button');
+enlargeButton.click(onClick);
 function onClick() {
   kbresultsheader.toggleClass('button-clicked');
   $('.viewer-class').toggleClass('viewer-button-clicked');
-  var canvas = document.getElementById('viewer');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  parseResultsFromJson(jobId, jobData);
 }
+
+const myCanvas = $('canvas');
+
+myCanvas.click(function() {
+  if (myCanvas.hasClass('expanded')) {
+    myCanvas.removeClass('expanded');
+    myCanvas[0].width /= 2;
+    myCanvas[0].height /= 2;
+  } else {
+    myCanvas.addClass('expanded');
+    myCanvas[0].width *= 2;
+    myCanvas[0].height *= 2;
+  }
+});
 
 function getDataFromServer(jobId) {
   return axios.get(`/results?jobId=${jobId}`)
