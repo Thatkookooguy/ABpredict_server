@@ -113,17 +113,38 @@ function onReady() {
     $('#kb-notification').removeClass('is-hidden');
   });
 }
-
-function parseResultsFromJson(jobId, jobData) {
-  $('#viewer').empty();
+function change_viewer_display(){
+$('#viewer').empty();
   var canvasParent = document.getElementById('viewer');
   var options = {
     background: 'black',
     width: canvasParent.clientWidth,
     height: canvasParent.clientHeight
   };
-  // insert the viewer under the Dom element with id 'gl'.
   viewer = pv.Viewer(document.getElementById('viewer'), options);
+  pv.io.fetchPdb(`pdbs?jobId=${ jobId }`, function(structure) {
+    // display the protein as cartoon, coloring the secondary structure
+    // elements in a rainbow gradient.
+    viewer.cartoon('protein', structure, {
+      color: color.ssSuccession()
+    });
+    // there are two ligands in the structure, the co-factor S-adenosyl
+    // homocysteine and the inhibitor ribavirin-5' triphosphate. They have
+    // the three-letter codes SAH and RVP, respectively. Let's display them
+    // with balls and sticks.
+    var ligands = structure.select({
+      rnames: ['SAH', 'RVP']
+    });
+    viewer.ballsAndSticks('ligands', ligands);
+    viewer.centerOn(structure);
+  });
+
+}
+function parseResultsFromJson(jobId, jobData) {
+//  $('#viewer').empty();
+  change_viewer_display();
+  // insert the viewer under the Dom element with id 'gl'.
+
   pv.io.fetchPdb(`pdbs?jobId=${ jobId }`, function(structure) {
     // display the protein as cartoon, coloring the secondary structure
     // elements in a rainbow gradient.
@@ -206,7 +227,7 @@ function drawGraph(data, attrX, attrY) {
     .attr("y", width)
     .attr("transform", "rotate(-90)")
     // .style("text-anchor", "end")
-    .text(`${ attrX } RMS (Ang)`);
+    .text(`${ attrX } (R.e.u)`);
 
   svg.append("g")
     .attr("class", "y axis")
@@ -261,22 +282,8 @@ enlargeButton.click(onClick);
 function onClick() {
   kbresultsheader.toggleClass('button-clicked');
   $('.viewer-class').toggleClass('viewer-button-clicked');
-  parseResultsFromJson(jobId, jobData);
+  change_viewer_display();
 }
-
-const myCanvas = $('canvas');
-
-myCanvas.click(function() {
-  if (myCanvas.hasClass('expanded')) {
-    myCanvas.removeClass('expanded');
-    myCanvas[0].width /= 2;
-    myCanvas[0].height /= 2;
-  } else {
-    myCanvas.addClass('expanded');
-    myCanvas[0].width *= 2;
-    myCanvas[0].height *= 2;
-  }
-});
 
 function getDataFromServer(jobId) {
   return axios.get(`/results?jobId=${jobId}`)
