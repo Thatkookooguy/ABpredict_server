@@ -60,6 +60,11 @@ html, body {
   padding: 0 20px;
 }
 
+#kb-results .content-header {
+  padding: 0 10px;
+  font-size: 30px
+}
+
 .kb-results-header {
   display: flex;
   align-items: center;
@@ -71,12 +76,12 @@ html, body {
 
 .kb-results-header #enlarge-button {
   position: absolute;
-  top: 16px;
+  top: 50px;
   left: 16px;
   padding: 5px 25px;
   background: transparent;
-  border: 2px solid green;
-  color: green;
+  border: 2px solid #e5e3e3;
+  color: #e5e3e3;
   border-radius: 20px;
   cursor: pointer;
   /* transition: all 150ms; */
@@ -84,7 +89,7 @@ html, body {
 }
 
 .kb-results-header #enlarge-button:active {
-  background: green;
+  background: #e5e3e3;
   color: black;
 }
 

@@ -113,54 +113,13 @@ function onReady() {
     $('#kb-notification').removeClass('is-hidden');
   });
 }
-function change_viewer_display(){
-$('#viewer').empty();
-  var canvasParent = document.getElementById('viewer');
-  var options = {
-    background: 'black',
-    width: canvasParent.clientWidth,
-    height: canvasParent.clientHeight
-  };
-  viewer = pv.Viewer(document.getElementById('viewer'), options);
-  pv.io.fetchPdb(`pdbs?jobId=${ jobId }`, function(structure) {
-    // display the protein as cartoon, coloring the secondary structure
-    // elements in a rainbow gradient.
-    viewer.cartoon('protein', structure, {
-      color: color.ssSuccession()
-    });
-    // there are two ligands in the structure, the co-factor S-adenosyl
-    // homocysteine and the inhibitor ribavirin-5' triphosphate. They have
-    // the three-letter codes SAH and RVP, respectively. Let's display them
-    // with balls and sticks.
-    var ligands = structure.select({
-      rnames: ['SAH', 'RVP']
-    });
-    viewer.ballsAndSticks('ligands', ligands);
-    viewer.centerOn(structure);
-  });
 
-}
 function parseResultsFromJson(jobId, jobData) {
 //  $('#viewer').empty();
   change_viewer_display();
   // insert the viewer under the Dom element with id 'gl'.
 
-  pv.io.fetchPdb(`pdbs?jobId=${ jobId }`, function(structure) {
-    // display the protein as cartoon, coloring the secondary structure
-    // elements in a rainbow gradient.
-    viewer.cartoon('protein', structure, {
-      color: color.ssSuccession()
-    });
-    // there are two ligands in the structure, the co-factor S-adenosyl
-    // homocysteine and the inhibitor ribavirin-5' triphosphate. They have
-    // the three-letter codes SAH and RVP, respectively. Let's display them
-    // with balls and sticks.
-    var ligands = structure.select({
-      rnames: ['SAH', 'RVP']
-    });
-    viewer.ballsAndSticks('ligands', ligands);
-    viewer.centerOn(structure);
-  });
+
 
   $('#results [job-id]').text(jobId);
 
@@ -171,6 +130,9 @@ function drawGraphs(data) {
   drawGraph(data, 'Energy', 'H1');
   drawGraph(data, 'Energy', 'H2');
   drawGraph(data, 'Energy', 'H3');
+  drawGraph(data, 'Energy', 'L1');
+  drawGraph(data, 'Energy', 'L2');
+  drawGraph(data, 'Energy', 'L3');
 }
 
 function drawGraph(data, attrX, attrY) {
