@@ -1,3 +1,22 @@
+HELIX    1   1 LEU A    9  ALA A   19  1                                  11    
+HELIX    2   2 GLY A   21  LYS A   30  1                                  10    
+HELIX    3   3 ARG A   38  ARG A   47  1                                  10    
+HELIX    4   4 ARG A   57  GLU A   67  1                                  11    
+HELIX    5   5 GLY A   85  GLY A   92  1                                   8    
+HELIX    6   6 GLY A  120  ASN A  122  5                                   3    
+HELIX    7   7 ASP A  131  ILE A  135  5                                   5    
+HELIX    8   8 ASN A  153  ASN A  170  1                                  18    
+HELIX    9   9 MET A  187  GLY A  202  1                                  16    
+HELIX   10  10 ASN A  227  ARG A  242  1                                  16    
+SHEET    1   A 2 GLN A  34  ASP A  37  0                                        
+SHEET    2   A 2 THR A 251  PRO A 254  1  O  THR A 251   N  GLU A  35           
+SHEET    1   B 7 VAL A 124  GLN A 127  0                                        
+SHEET    2   B 7 VAL A  97  LEU A 103  1  N  GLY A 102   O  ARG A 125           
+SHEET    3   B 7 GLY A  75  LEU A  80  1  N  VAL A  77   O  GLU A  99           
+SHEET    4   B 7 THR A 142  CYS A 145  1  O  LEU A 144   N  LEU A  80           
+SHEET    5   B 7 GLN A 177  VAL A 182  1  O  GLN A 177   N  LEU A 143           
+SHEET    6   B 7 MET A 218  VAL A 221 -1  O  TRP A 220   N  VAL A 180           
+SHEET    7   B 7 ALA A 204  VAL A 206 -1  N  VAL A 206   O  TYR A 219           
 ATOM      1  N   GLU A   7       6.454 -37.820  25.751  1.00 96.94           N  
 ATOM      2  CA  GLU A   7       5.179 -37.470  26.444  1.00 97.55           C  
 ATOM      3  C   GLU A   7       4.114 -38.549  26.169  1.00 95.35           C  

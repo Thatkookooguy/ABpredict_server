@@ -122,7 +122,7 @@ $('#viewer').empty();
     height: canvasParent.clientHeight
   };
   viewer = pv.Viewer(document.getElementById('viewer'), options);
-  pv.io.fetchPdb(`pdbs?jobId=${ jobId }`, function(structure) {
+  pv.io.fetchPdb(`tmp.pdb`, function(structure) {
     // display the protein as cartoon, coloring the secondary structure
     // elements in a rainbow gradient.
     viewer.cartoon('protein', structure, {
@@ -145,7 +145,7 @@ function parseResultsFromJson(jobId, jobData) {
   change_viewer_display();
   // insert the viewer under the Dom element with id 'gl'.
 
-  pv.io.fetchPdb(`pdbs?jobId=${ jobId }`, function(structure) {
+  pv.io.fetchPdb(`tmp.pdb`, function(structure) {
     // display the protein as cartoon, coloring the secondary structure
     // elements in a rainbow gradient.
     viewer.cartoon('protein', structure, {
