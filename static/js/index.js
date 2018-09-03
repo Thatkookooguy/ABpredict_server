@@ -1,6 +1,7 @@
 var jobData;
 var jobId;
 var viewer;
+var PdbInfo = `pdbs?jobId=${ jobId }`;
 
 $(document).ready(onReady);
 
@@ -116,7 +117,7 @@ function onReady() {
 
 function parseResultsFromJson(jobId, jobData) {
 //  $('#viewer').empty();
-  change_viewer_display();
+  load_viewer();
   // insert the viewer under the Dom element with id 'gl'.
 
 
@@ -244,7 +245,7 @@ enlargeButton.click(onClick);
 function onClick() {
   kbresultsheader.toggleClass('button-clicked');
   $('.viewer-class').toggleClass('viewer-button-clicked');
-  change_viewer_display();
+  load_viewer();
 }
 
 function getDataFromServer(jobId) {

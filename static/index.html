@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
 
-  <body>
+  <body onresize="change_viewer_display()">
     <div id="kb-loader" class="pageloader is-active">
       <span class="title">Getting your protein shaked...</span>
     </div>
@@ -95,11 +95,11 @@ ASJDKASJKDAJSKDJASKDASJDKASD" data-parsley-trigger="change" data-parsley-fastafo
         </div>
         </from>
     </div>
-    <div id="kb-results">
+    <div id="kb-results" >
         <h2 class="content-header">JOB ID #<span job-id></span></h2>
       <div class="kb-results-header">
         <button id="enlarge-button">Enlarge</button>
-        <div id="viewer" class="viewer-class">
+        <div id="viewer" class="viewer-class" >
         </div>
 
 
