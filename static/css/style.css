@@ -50,6 +50,36 @@ html, body {
   font-family: 'Montserrat', sans-serif;
   opacity: 0.9;
 }
+.label {
+  color: #363636;
+  display: block;
+font-size: 1rem;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 500px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 0 0;
+    font-size: 1rem;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
 
 .gl-fasta {
   padding-left: 1.925em;

@@ -276,6 +276,7 @@ window.onload = function() {
 
 
   $('.submit-button').click(() => {
+
     var email = $('.gl-email').val();
     var fasta = $('.gl-fasta').val();
     var file = document.getElementById('file-test').files[0];
@@ -284,6 +285,7 @@ window.onload = function() {
     r.onload = function(e) {
       var contents = e.target.result;
       validateDNA(contents)
+      console.log("Iam here")
 
 
       var serverPostData = {
@@ -291,7 +293,6 @@ window.onload = function() {
         fasta: fasta,
         name: 'default'
       };
-
       axios.post('/antibody/', serverPostData)
         .then(function(response) {
           console.log(response);

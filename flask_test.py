@@ -25,6 +25,7 @@ def hello_world():
 def user():
 	request.method == 'POST'
 	content = request.get_json(silent=0)
+	print ("askdjfalksdj")
 	print (content['email'])
 	print (content['name'])
 	print (content['fasta'])
