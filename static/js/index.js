@@ -1,6 +1,7 @@
 var jobData;
 var jobId;
 var viewer;
+var PdbInfo = `pdbs?jobId=${ jobId }`;
 
 $(document).ready(onReady);
 
@@ -57,13 +58,14 @@ window.Parsley.on('field:validated', function(pp) {
 
 window.ParsleyValidator
   .addValidator('fastafile', function(value) {
+
     const fileInput = $('#file-input')[0];
 
     const fileInputFileType = fileInput.files ?
       fileInput.files[0].type :
       'no-file';
 
-    return fileInputFileType === 'text/plain';
+    return (fileInputFileType === 'text/plain') ||(fileInputFileType === "");
   })
   .addMessage('en', 'fileextension', 'File type is invalid');
 
@@ -113,54 +115,13 @@ function onReady() {
     $('#kb-notification').removeClass('is-hidden');
   });
 }
-function change_viewer_display(){
-$('#viewer').empty();
-  var canvasParent = document.getElementById('viewer');
-  var options = {
-    background: 'black',
-    width: canvasParent.clientWidth,
-    height: canvasParent.clientHeight
-  };
-  viewer = pv.Viewer(document.getElementById('viewer'), options);
-  pv.io.fetchPdb(`tmp.pdb`, function(structure) {
-    // display the protein as cartoon, coloring the secondary structure
-    // elements in a rainbow gradient.
-    viewer.cartoon('protein', structure, {
-      color: color.ssSuccession()
-    });
-    // there are two ligands in the structure, the co-factor S-adenosyl
-    // homocysteine and the inhibitor ribavirin-5' triphosphate. They have
-    // the three-letter codes SAH and RVP, respectively. Let's display them
-    // with balls and sticks.
-    var ligands = structure.select({
-      rnames: ['SAH', 'RVP']
-    });
-    viewer.ballsAndSticks('ligands', ligands);
-    viewer.centerOn(structure);
-  });
 
-}
 function parseResultsFromJson(jobId, jobData) {
 //  $('#viewer').empty();
-  change_viewer_display();
+  load_viewer();
   // insert the viewer under the Dom element with id 'gl'.
 
-  pv.io.fetchPdb(`tmp.pdb`, function(structure) {
-    // display the protein as cartoon, coloring the secondary structure
-    // elements in a rainbow gradient.
-    viewer.cartoon('protein', structure, {
-      color: color.ssSuccession()
-    });
-    // there are two ligands in the structure, the co-factor S-adenosyl
-    // homocysteine and the inhibitor ribavirin-5' triphosphate. They have
-    // the three-letter codes SAH and RVP, respectively. Let's display them
-    // with balls and sticks.
-    var ligands = structure.select({
-      rnames: ['SAH', 'RVP']
-    });
-    viewer.ballsAndSticks('ligands', ligands);
-    viewer.centerOn(structure);
-  });
+
 
   $('#results [job-id]').text(jobId);
 
@@ -171,6 +132,9 @@ function drawGraphs(data) {
   drawGraph(data, 'Energy', 'H1');
   drawGraph(data, 'Energy', 'H2');
   drawGraph(data, 'Energy', 'H3');
+  drawGraph(data, 'Energy', 'L1');
+  drawGraph(data, 'Energy', 'L2');
+  drawGraph(data, 'Energy', 'L3');
 }
 
 function drawGraph(data, attrX, attrY) {
@@ -282,7 +246,7 @@ enlargeButton.click(onClick);
 function onClick() {
   kbresultsheader.toggleClass('button-clicked');
   $('.viewer-class').toggleClass('viewer-button-clicked');
-  change_viewer_display();
+  load_viewer();
 }
 
 function getDataFromServer(jobId) {
@@ -291,36 +255,20 @@ function getDataFromServer(jobId) {
 }
 
 window.onload = function() {
-  /*  Particles.init({
-      selector: '.background',
-      color: '#FFFFFF',
-      connectParticles: true,
-      minDistance: 80
-    }); */
-
-
-
-  $('#file-test').change(function() {
-    var i = $(this).prev('label').clone();
-    var file_name = $('#file-test')[0].files[0].name;
-    var file = $('#file-test')[0].files[0];
-    var $jsName = document.querySelector('.name');
-    var $jsValue = document.querySelector('.jsValue');
-    $jsValue.innerHTML = file_name;
-    $jsValue.style.color = 'red';
-  });
-
-
 
   $('.submit-button').click(() => {
+
     var email = $('.gl-email').val();
     var fasta = $('.gl-fasta').val();
-    var file = document.getElementById('file-test').files[0];
+    var file = document.getElementById('file-input').files[0];
 
     var r = new FileReader();
+      console.log("Iam here")
     r.onload = function(e) {
       var contents = e.target.result;
+      console.log(contents)
       validateDNA(contents)
+
 
 
       var serverPostData = {
@@ -328,14 +276,14 @@ window.onload = function() {
         fasta: fasta,
         name: 'default'
       };
-
       axios.post('/antibody/', serverPostData)
         .then(function(response) {
           console.log(response);
         });
     };
-    r.readAsText(file);
+r.readAsText(file);
   });
+
 };
 
 function validateDNA(seq) {

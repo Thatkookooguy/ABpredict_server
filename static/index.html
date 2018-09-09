@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
 
-  <body>
+  <body>onresize="change_viewer_display()">
     <div id="kb-loader" class="pageloader is-active">
       <span class="title">Getting your protein shaked...</span>
     </div>
@@ -41,7 +41,9 @@
               </div>
 
               <div class="field">
-                <label id="test" class="label">Fasta</label>
+                <label id="test" class="label tooltip">Fasta
+                   <span class="tooltiptext">Enter either a fasta text file or paste into window below</span>
+                </label>
                 <div class="control">
                   <div class="file">
                     <label class="file-label">
@@ -95,16 +97,17 @@ ASJDKASJKDAJSKDJASKDASJDKASD" data-parsley-trigger="change" data-parsley-fastafo
         </div>
         </from>
     </div>
-    <div id="kb-results">
+    <div id="kb-results" >
+        <h2 class="content-header">JOB ID #<span job-id></span></h2>
       <div class="kb-results-header">
         <button id="enlarge-button">Enlarge</button>
-        <div id="viewer" class="viewer-class">
+        <div id="viewer" class="viewer-class" >
         </div>
 
 
       </div>
       <div class="content">
-        <h2>JOB ID #<span job-id></span></h2>
+      <!--  h2>JOB ID #<span job-id></span></h2 -->
         <div id="chartContainer" style="600px;">
         </div>
       </div>
@@ -121,7 +124,7 @@ ASJDKASJKDAJSKDJASKDASJDKASD" data-parsley-trigger="change" data-parsley-fastafo
     <script src="//d3js.org/d3.v3.min.js"></script>
     <script type="text/javascript" src="canvasjs.min.js"></script>
 
-
+    <script src="js/pv.js"></script>
     <script src="js/index.js"></script>
   </body>
 
