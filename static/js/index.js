@@ -1,7 +1,6 @@
 var jobData;
 var jobId;
 var viewer;
-var PdbInfo = `pdbs?jobId=${ jobId }`;
 
 $(document).ready(onReady);
 
@@ -263,15 +262,18 @@ window.onload = function() {
     var file = document.getElementById('file-input').files[0];
 
     var r = new FileReader();
-      console.log("Iam here")
+//      console.log("Iam here")
     r.onload = function(e) {
       var contents = e.target.result;
-      console.log(contents)
+
       validateDNA(contents)
+	fasta = contents
+      console.log(fasta)
+    };
+ 
+r.readAsText(file);
 
-
-
-      var serverPostData = {
+   var serverPostData = {
         email: email,
         fasta: fasta,
         name: 'default'
@@ -280,8 +282,6 @@ window.onload = function() {
         .then(function(response) {
           console.log(response);
         });
-    };
-r.readAsText(file);
   });
 
 };
