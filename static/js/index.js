@@ -1,6 +1,7 @@
 var jobData;
 var jobId;
 var viewer;
+var fasta;
 
 $(document).ready(onReady);
 
@@ -35,11 +36,12 @@ window.Parsley.on('field:validated', function(pp) {
       var fileContent = e.target.result;
 
       if (validateDNA(fileContent)) {
+        fasta = fileContent;
         console.log('file is VALID');
         $('button#form-submit').prop("disabled", false);
         return
       } else {
-        console.log('file is NOT valid');
+        console.log('file is NOT a valid fasta file');
 
         $('button#form-submit').prop("disabled", true);
         return
@@ -64,7 +66,7 @@ window.ParsleyValidator
       fileInput.files[0].type :
       'no-file';
 
-    return (fileInputFileType === 'text/plain') ||(fileInputFileType === "");
+    return (fileInputFileType === 'text/plain') || (fileInputFileType === "");
   })
   .addMessage('en', 'fileextension', 'File type is invalid');
 
@@ -116,7 +118,7 @@ function onReady() {
 }
 
 function parseResultsFromJson(jobId, jobData) {
-//  $('#viewer').empty();
+  //  $('#viewer').empty();
   load_viewer();
   // insert the viewer under the Dom element with id 'gl'.
 
@@ -242,15 +244,21 @@ function onDataReady() {
 let kbresultsheader = $('.kb-results-header');
 let enlargeButton = $('#enlarge-button');
 enlargeButton.click(onClick);
+
 function onClick() {
-  kbresultsheader.toggleClass('button-clicked');
-  $('.viewer-class').toggleClass('viewer-button-clicked');
+  $('#kb-results').toggleClass('button-clicked');
+  //  $('.viewer-class').toggleClass('viewer-button-clicked');
   load_viewer();
 }
 
 function getDataFromServer(jobId) {
   return axios.get(`/results?jobId=${jobId}`)
-    .then((serverData) => serverData.data);
+    .then((serverData) => serverData.data)
+    .then((data) => {
+      if (data.error) {
+        throw new Error("Proccess error: "+data.error);
+      }
+    });
 }
 
 window.onload = function() {
@@ -258,44 +266,52 @@ window.onload = function() {
   $('.submit-button').click(() => {
 
     var email = $('.gl-email').val();
-    var fasta = $('.gl-fasta').val();
+    fasta = $('.gl-fasta').val();
     var file = document.getElementById('file-input').files[0];
-
-    var r = new FileReader();
-//      console.log("Iam here")
-    r.onload = function(e) {
-      var contents = e.target.result;
-
-      validateDNA(contents)
-	fasta = contents
-      console.log(fasta)
-    };
- 
-r.readAsText(file);
-
-   var serverPostData = {
-        email: email,
-        fasta: fasta,
-        name: 'default'
+    //    consolge.log(fasta)
+    if (file != undefined) {
+      var r = new FileReader();
+      r.onload = function(e) {
+        fasta = e.target.result;
+        validateDNA(fasta)
+        console.log(fasta)
       };
-      axios.post('/antibody/', serverPostData)
-        .then(function(response) {
-          console.log(response);
-        });
+      r.readAsText(file);
+    }
+    var name = get_seq_name_from_fasta(fasta);
+
+    var serverPostData = {
+      email: email,
+      fasta: fasta,
+      name: name,
+    };
+    tmp = 5;
+    axios.post('/antibody/', serverPostData)
+      .then(function(response) {
+        console.log(response);
+      });
   });
 
 };
 
+function get_seq_name_from_fasta(fas) {
+  var mySubString = fas.substring(
+    fas.lastIndexOf(">") + 1,
+    fas.lastIndexOf("\n")
+  );
+  console.log(mySubString);
+  return mySubString
+};
+
 function validateDNA(seq) {
   seq = seq.trim();
+  console.log(seq);
   // split on newlines...
   var lines = seq.split('\n');
-
   // check for header
   if (seq[0] !== '>') {
     return false;
   }
-
   // remove one line, starting at the first position
   lines.splice(0, 1);
 

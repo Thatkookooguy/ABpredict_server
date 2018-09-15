@@ -41,6 +41,11 @@ def display_results():
 	#make a jason object that returns pdb coordinats and data for graphs
 
 	jobId = request.args.get('jobId')
+
+	#Add function that checks log status
+	if (1):
+		return jsonify(error = "ARGGHHHHHHH");
+
 	return jsonify(pdb=get_pdb_by_jobId(jobId),stats=convert_model_stats_to_json(jobId))
 
 @app.route('/pdbs', methods = ['GET'])

@@ -92,7 +92,14 @@ font-size: 1rem;
 
 #kb-results .content-header {
   padding: 0 10px;
-  font-size: 30px
+  font-size: 30px;
+  transition: all 250ms linear 300ms;
+  height:45px;
+}
+
+#kb-results.button-clicked .content-header {
+  height: 0;
+  transition: all 250ms linear 1000ms;
 }
 
 .kb-results-header {
@@ -101,13 +108,13 @@ font-size: 1rem;
   justify-content: center;
   background: black;
   width: 100vw;
-  positoin: relative;
+  position: relative;
 }
 
 .kb-results-header #enlarge-button {
   position: absolute;
-  top: 50px;
-  left: 16px;
+  top: 5px;
+  left: 5px;
   padding: 5px 25px;
   background: transparent;
   border: 2px solid #e5e3e3;
@@ -123,18 +130,16 @@ font-size: 1rem;
   color: black;
 }
 
-  .button-clicked {
+  #kb-results.button-clicked .kb-results-header{
       height: 100vh;
   }
-
 
 .viewer-class {
   height: 60vh;
   width: 100vw;
   overflow: hidden;
 }
-
-.viewer-button-clicked {
+  #kb-results.button-clicked .viewer-class {
     height: 100vh;
 }
 
