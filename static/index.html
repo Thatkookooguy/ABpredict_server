@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <title>AbPredict</title>
-    <link rel="shortcut icon" href="ab.ico" type="image/x-icon">
+<head>
+  <meta charset="UTF-8">
+  <title>AbPredict</title>
+  <link rel="shortcut icon" href="ab.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css'>
-    <link rel='stylesheet prefetch' href='https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css'>
-    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Indie+Flower|Lato|Montserrat|Open+Sans'>
-    <link rel='stylesheet prefetch' href='//rawgit.com/Wikiki/bulma-pageloader/master/dist/css/bulma-pageloader.min.css'>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css'>
+  <link rel='stylesheet prefetch' href='https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css'>
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Indie+Flower|Lato|Montserrat|Open+Sans'>
+  <link rel='stylesheet prefetch' href='//rawgit.com/Wikiki/bulma-pageloader/master/dist/css/bulma-pageloader.min.css'>
 
-    <link rel="stylesheet" href="css/style.css">
-  </head>
+  <link rel="stylesheet" href="css/style.css">
+</head>
 
-  <body onresize="change_viewer_display()">
-    <div id="kb-loader" class="pageloader is-active">
-      <span class="title">Getting your protein shaked...</span>
-    </div>
-    <div id="kb-form">
-      <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item">Abpredict</a>
-        </div>
-      </nav>
-      <form id="fasta-form" class="container" data-parsley-validate>
-        <div class="card">
-          <div class="card-content">
-            <div class="content">
-              <div class="field">
-                <label class="label">Email</label>
-                <div class="control has-icons-left">
-                  <input class="input gl-email" id="email" type="email" placeholder="joe@academia.ac.il" data-parsley-trigger="change" data-parsley-required="true" data-parsley-type="email">
-                  <div id="email_msg"></div>
-                  <span class="icon is-small is-left">
+<body onresize="change_viewer_display()">
+  <div id="kb-loader" class="pageloader is-active">
+    <span class="title">Getting your protein shaked...</span>
+  </div>
+  <div id="kb-form">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item">Abpredict</a>
+      </div>
+    </nav>
+    <form id="fasta-form" class="container" data-parsley-validate>
+      <div class="card">
+        <div class="card-content">
+          <div class="content">
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control has-icons-left">
+                <input class="input gl-email" id="email" type="email" placeholder="joe@academia.ac.il" data-parsley-trigger="change" data-parsley-required="true" data-parsley-type="email">
+                <div id="email_msg"></div>
+                <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
-                </div>
               </div>
+            </div>
 
-              <div class="field">
-                <label id="test" class="label tooltip">Fasta
+            <div class="field">
+              <label id="test" class="label tooltip">Fasta
                    <span class="tooltiptext">Enter either a fasta text file or paste into window below</span>
                 </label>
-                <div class="control">
-                  <div class="file">
-                    <label class="file-label">
+              <div class="control">
+                <div class="file">
+                  <label class="file-label">
                       <input id="file-input" class="file-input" type="file" name="resume"
                         data-parsley-trigger="change"
                         data-parsley-fastafile="">
@@ -59,24 +59,24 @@
                         </span>
                       </span>
                     </label>
-                    <a class="remove-file" id="remove-file">
+                  <a class="remove-file" id="remove-file">
                     <i class="fas fa-times-circle"></i>
                   </a>
-                  </div>
-                </div>
-                <div class="control  has-icons-left has-icons-right">
-                  <textarea id="textareabox" type="text" class="textarea gl-fasta" placeholder=">Header
-ASJDKASJKDAJSKDJASKDASJDKASD" data-parsley-trigger="change" data-parsley-fastaformat=""></textarea>
-                  <div id="charNum"></div>
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-dna"></i>
-                  </span>
                 </div>
               </div>
+              <div class="control  has-icons-left has-icons-right">
+                <textarea id="textareabox" type="text" class="textarea gl-fasta" placeholder=">Header
+ASJDKASJKDAJSKDJASKDASJDKASD" data-parsley-trigger="change" data-parsley-fastaformat=""></textarea>
+                <div id="charNum"></div>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-dna"></i>
+                  </span>
+              </div>
+            </div>
 
-              <div class="field">
-                <div class="control">
-                  <label class="checkbox">
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
                     <input type="checkbox"
                     name="TOS"
                     data-parsley-trigger="change"
@@ -84,48 +84,50 @@ ASJDKASJKDAJSKDJASKDASJDKASD" data-parsley-trigger="change" data-parsley-fastafo
                     data-parsley-mincheck="1">
                     I agree to the <a href="/FuncLib_TermsOfUse.pdf" target="_blank">Terms of Services</a>
                   </label>
-                </div>
               </div>
-
             </div>
+
           </div>
-          <footer class="card-footer">
-            <div class="control">
-              <button id="form-submit" class="button submit-button" disabled>Submit</button>
-            </div>
-          </footer>
         </div>
-        </from>
-    </div>
-    <div id="kb-results" >
-        <h2 class="content-header">JOB ID #<span job-id></span></h2>
-      <div class="kb-results-header">
-        <button id="enlarge-button">Enlarge</button>
-        <div id="viewer" class="viewer-class" >
-        </div>
-
-
+        <footer class="card-footer">
+          <div class="control">
+            <button id="form-submit" class="button submit-button" disabled>Submit</button>
+          </div>
+        </footer>
       </div>
-      <div class="content">
-      <!--  h2>JOB ID #<span job-id></span></h2 -->
-        <div id="chartContainer" style="600px;">
-        </div>
+      </from>
+  </div>
+  <div id="kb-results">
+    <h2 class="content-header">JOB ID #<span job-id></span></h2>
+    <div class="kb-results-header">
+      <button id="enlarge-button" class = "style">Enlarge</button>
+      <button id="toggle-model1"  onclick="display_model(1)" class = "style">model1</button>
+      <button id="toggle-model2"  onclick="display_model(2)" class = "style">model2</button>
+      <button id="toggle-model3"  onclick="display_model(3)" class = "style">model3</button>
+      <div id="viewer" class="viewer-class">
       </div>
 
+
+    </div>
+    <div class="content">
+      <div id="chartContainer" style="600px;">
+      </div>
     </div>
 
-    <!-- SCRIPTS -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/2.8.1/parsley.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.1.0/particles.min.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
-    <script src="https://rawgit.com/biasmv/pv/master/bio-pv.min.js"></script>
-    <script src="//d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="canvasjs.min.js"></script>
+  </div>
 
-    <script src="js/pv.js"></script>
-    <script src="js/index.js"></script>
-  </body>
+  <!-- SCRIPTS -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/2.8.1/parsley.min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.1.0/particles.min.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
+  <script src="https://rawgit.com/biasmv/pv/master/bio-pv.min.js"></script>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script type="text/javascript" src="canvasjs.min.js"></script>
+
+  <script src="js/pv.js"></script>
+  <script src="js/index.js"></script>
+</body>
 
 </html>

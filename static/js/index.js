@@ -98,6 +98,7 @@ function onReady() {
   // based on url
   jobId = getParameterByName('jobId', window.location.href);
   if (jobId) {
+    //console.log("I am HERE!!!!!!");
     getDataFromServer(jobId)
       .then(function(results) {
         jobData = results;
@@ -245,19 +246,31 @@ let kbresultsheader = $('.kb-results-header');
 let enlargeButton = $('#enlarge-button');
 enlargeButton.click(onClick);
 
+//$('#toggle-model1').click(display_model());
+
 function onClick() {
   $('#kb-results').toggleClass('button-clicked');
+  $('#kb-results').toggleClass('show-button');
+if (enlargeButton.html()=="Enlarge"){
+enlargeButton.html('Restore');
+}
+else{
+  enlargeButton.html('Enlarge');
+
+}
   //  $('.viewer-class').toggleClass('viewer-button-clicked');
-  load_viewer();
+change_viewer_display();
 }
 
 function getDataFromServer(jobId) {
+  //console.log("sdfasdfasdfasd");
   return axios.get(`/results?jobId=${jobId}`)
     .then((serverData) => serverData.data)
     .then((data) => {
-      if (data.error) {
+      if (data.error!="") {
         throw new Error("Proccess error: "+data.error);
       }
+      else {return data}
     });
 }
 
@@ -265,32 +278,58 @@ window.onload = function() {
 
   $('.submit-button').click(() => {
 
-    var email = $('.gl-email').val();
-    fasta = $('.gl-fasta').val();
-    var file = document.getElementById('file-input').files[0];
-    //    consolge.log(fasta)
-    if (file != undefined) {
-      var r = new FileReader();
-      r.onload = function(e) {
-        fasta = e.target.result;
-        validateDNA(fasta)
-        console.log(fasta)
-      };
-      r.readAsText(file);
-    }
-    var name = get_seq_name_from_fasta(fasta);
+      var email = $('.gl-email').val();
+      var fasta = $('.gl-fasta').val();
+      var file = document.getElementById('file-input').files[0];
 
-    var serverPostData = {
-      email: email,
-      fasta: fasta,
-      name: name,
-    };
-    tmp = 5;
-    axios.post('/antibody/', serverPostData)
-      .then(function(response) {
-        console.log(response);
+      readFilePromise(file)
+        .catch(function(err) {
+          return fasta;
+         })
+        .then(function(fileContent) {
+          const isFileValid = validateDNA(fileContent);
+
+        //  throw new Error('invalid fasta');
+
+          return fileContent;
+        })
+        .then(function(fasta) {
+          var serverPostData = {
+            email: email,
+            fasta: fasta,
+            name: 'default'
+          };
+
+          return axios.post('/antibody/', serverPostData);
+        })
+        .then(function(response) {
+          console.log(response);
+        });
+    });
+
+    function readFilePromise(file) {
+      return new Promise(function(resolve, reject) {
+        if (!file) {
+          reject(new Error('no file given'));
+        }
+        else {
+        var r = new FileReader();
+
+        r.onload = function(e) {
+          var contents = e.target.result;
+
+          resolve(contents);
+          return;
+        };
+
+        r.onerror = function(e) {
+          reject(new Error('could not read file'));
+        }
+
+        r.readAsText(file);
+      }
       });
-  });
+    }
 
 };
 

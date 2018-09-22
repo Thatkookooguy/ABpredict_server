@@ -43,10 +43,10 @@ def display_results():
 	jobId = request.args.get('jobId')
 
 	#Add function that checks log status
-	if (1):
-		return jsonify(error = "ARGGHHHHHHH");
+#	if (1):
+#		return jsonify(error = "ARGGHHHHHHH");
 
-	return jsonify(pdb=get_pdb_by_jobId(jobId),stats=convert_model_stats_to_json(jobId))
+	return jsonify(pdb=get_pdb_by_jobId(jobId),stats=convert_model_stats_to_json(jobId),error="")
 
 @app.route('/pdbs', methods = ['GET'])
 def return_pdb():
