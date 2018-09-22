@@ -246,7 +246,6 @@ let kbresultsheader = $('.kb-results-header');
 let enlargeButton = $('#enlarge-button');
 enlargeButton.click(onClick);
 
-//$('#toggle-model1').click(display_model());
 
 function onClick() {
   $('#kb-results').toggleClass('button-clicked');
