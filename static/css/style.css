@@ -197,6 +197,14 @@ html, body {
   color: #e5e3e3;
   padding: 2px 2px;
 }
+.kb-results-header #CDR {
+  top: 40px;
+  left: 50px;
+  display: none;
+  border: 2px solid #e5e3e3;
+  color: #e5e3e3;
+  padding: 2px 2px;
+}
 
 .kb-results-header #picked-atom-name {
   top: 700px;
