@@ -2,7 +2,9 @@ var jobData;
 var jobId;
 var viewer;
 var fasta;
+var name;
 
+//x=document.getElementById("fasta_name").innerText="Hello JavaScript!";;  // Find the elements
 $(document).ready(onReady);
 
 $('#remove-file').click(function() {
@@ -98,7 +100,6 @@ function onReady() {
   // based on url
   jobId = getParameterByName('jobId', window.location.href);
   if (jobId) {
-    //console.log("I am HERE!!!!!!");
     getDataFromServer(jobId)
       .then(function(results) {
         jobData = results;
@@ -246,7 +247,6 @@ let kbresultsheader = $('.kb-results-header');
 let enlargeButton = $('#enlarge-button');
 enlargeButton.click(onClick);
 
-
 function onClick() {
   $('#kb-results').toggleClass('button-clicked');
   $('#kb-results').toggleClass('show-button');
@@ -374,21 +374,27 @@ function getParameterByName(name, url) {
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-function validateEmail(email) {
-  var e = document.getElementById('email');
-  e.style.borderColor = 'black';
-  $('#email_msg').text("");
-  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  console.log(re.test(email))
-  if (!re.test(email)) {
-    //The seq string contains only GATC
-    $('#email_msg').text("Not correct email format");
-
-    e.style.borderColor = 'red';
-    document.getElementById("email_msg").style.color = 'red';
-
-
-    return false;
-  }
-  return true;
+/*function download_file() {
+  //console.log("sdfasdfasdfasd");
+  return axios.get(`/results?jobId=${jobId}`)
+    .then((serverData) => serverData.data)
+    .then((data) => {
+      return data
+    });
 }
+*/
+function download_file() {
+  axios({
+url: `/pdbs?jobId=${jobId}`,
+method: 'GET',
+responseType: 'blob', // important
+}).then((response) => {
+const url = window.URL.createObjectURL(new Blob([response.data]));
+const link = document.createElement('a');
+link.href = url;
+link.setAttribute('download', 'file.txt');
+document.body.appendChild(link);
+link.click();
+});
+
+    }

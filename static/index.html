@@ -20,11 +20,10 @@
     <span class="title">Getting your protein shaked...</span>
   </div>
   <div id="kb-form">
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item">Abpredict</a>
-      </div>
-    </nav>
+    <div class="navbar-brand">
+      <a class="navbar-item">Abpredict</a>
+      <img src="WIS.svg"/>
+    </div>
     <form id="fasta-form" class="container" data-parsley-validate>
       <div class="card">
         <div class="card-content">
@@ -98,13 +97,17 @@ ASJDKASJKDAJSKDJASKDASJDKASD" data-parsley-trigger="change" data-parsley-fastafo
       </from>
   </div>
   <div id="kb-results">
-    <h2 class="content-header">JOB ID #<span job-id></span></h2>
+    <h2 id="fasta_name" class="content-header">
+      <button id="lines2"  onclick="download_file()" class = "style-header">Download</button>
+    </h2>
     <div class="kb-results-header">
+      <div id='picked-atom-name' class="style" style='text-align:center;'>&nbsp;</div>
+
       <button id="enlarge-button" class = "style">Enlarge</button>
       <button id="toggle-model1"  onclick="display_model(0)" class = "style">model1</button>
       <button id="toggle-model2"  onclick="display_model(1)" class = "style">model2</button>
       <button id="toggle-model3"  onclick="display_model(2)" class = "style">model3</button>
-        <button id="lines"  onclick="change_to_lines()" class = "style">lines</button>
+      <button id="lines"  onclick="change_to_lines()" class = "style">lines</button>
       <div id="viewer" class="viewer-class">
       </div>
 
