@@ -30,7 +30,7 @@ html, body {
   padding: 0 1rem;
 }
 
-#fasta_name{
+#fasta_name {
   font-family: 'Alegreya Sans SC', sans-serif;
   font-weight: 700;
 }
@@ -137,7 +137,7 @@ html, body {
   padding: 0 10px;
   font-size: 30px;
   transition: all 250ms linear 300ms;
-      transform: translateY(0.08em);
+  transform: translateY(0.08em);
 }
 
 #kb-results .style-header {
@@ -152,11 +152,6 @@ html, body {
   /* transition: all 150ms; */
   outline: none;
 }
-
-/* #kb-results.button-clicked .content-header {
-  height: 0;
-  transition: all 500ms linear 100ms;
-} */
 
 .kb-results-header {
   display: flex;
@@ -175,7 +170,7 @@ html, body {
 
 #toggle-model1.clicked {
   background: #008744;
-  color: black;
+  color: white;
 }
 
 #toggle-model2 {
@@ -186,7 +181,7 @@ html, body {
 
 #toggle-model2.clicked {
   background: #ffa700;
-  color: black;
+  color: white;
 }
 
 #toggle-model3 {
@@ -197,33 +192,46 @@ html, body {
 
 #toggle-model3.clicked {
   background: #d62d20;
-  color: black;
-}
- #lines {
-  display: none;
-  border: 2px solid #e5e3e3;
-  color: #e5e3e3;
-  padding: 2px 2px;
+  color: white;
 }
 
- #CDR {
+#enlarge-button {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+#lines {
   display: none;
   border: 2px solid #e5e3e3;
   color: #e5e3e3;
   padding: 2px 2px;
+  position: absolute;
+  left: 10px;
+  top: 45px;
+}
+
+#CDR {
+  display: none;
+  border: 2px solid #e5e3e3;
+  color: #e5e3e3;
+  padding: 2px 2px;
+  position: absolute;
+  left: 50px;
+  top: 45px;
 }
 
 .kb-results-header #picked-atom-name {
-      position: absolute;
-  top: 700px;
-  left: 10px;
+  position: absolute;
+  top: 10px;
+  left: 700px;
   display: none;
   border: 0px;
   color: #e5e3e3;
   padding: 2px 2px;
 }
 
- .style {
+.style {
   /* position: absolute; */
   padding: 5px 25px;
   background: transparent;
@@ -235,7 +243,7 @@ html, body {
   outline: none;
 }
 
- .style:active {
+.style:active {
   background: #e5e3e3;
   color: black;
 }
