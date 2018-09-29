@@ -5,13 +5,12 @@ body {
   overflow: hidden;
 }
 
-img {
+/* img {
   max-width: 20%;
   height: 95%;
   position: absolute;
   left: 75vw;
-}
-
+} */
 html, body {
   margin: 0;
   padding: 0;
@@ -26,7 +25,34 @@ html, body {
   z-index: 0;
 }
 
+.weizman-logo {
+  height: 3em;
+  padding: 0 1rem;
+}
+
+#fasta_name{
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-weight: 700;
+}
+
+.navbar-middle-content {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar {
+  align-items: center;
+  display: flex;
+}
+
 .navbar-brand {
+  font-size: 2rem;
+  font-style: italic;
+}
+
+/* .navbar-brand {
   font-size: 2rem;
   font-weight: bold;
   font-style: italic;
@@ -41,8 +67,7 @@ html, body {
 
 .navbar-brand:hover {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-}
-
+} */
 .card {
   /* background-color: rgba(255, 255, 255, 0.1); */
 }
@@ -112,13 +137,10 @@ html, body {
   padding: 0 10px;
   font-size: 30px;
   transition: all 250ms linear 300ms;
-  height: 45px;
+      transform: translateY(0.08em);
 }
 
 #kb-results .style-header {
-  position: absolute;
-  top: 10px;
-  left: 80%;
   padding: 5px 25px;
   background: transparent;
   border: 2px solid #FF0000;
@@ -131,10 +153,10 @@ html, body {
   outline: none;
 }
 
-#kb-results.button-clicked .content-header {
+/* #kb-results.button-clicked .content-header {
   height: 0;
   transition: all 500ms linear 100ms;
-}
+} */
 
 .kb-results-header {
   display: flex;
@@ -145,61 +167,46 @@ html, body {
   position: relative;
 }
 
-.kb-results-header #enlarge-button {
-  top: 5px;
-  left: 5px;
-}
-
-.kb-results-header #toggle-model1 {
-  top: 5px;
-  left: 110px;
+#toggle-model1 {
   display: none;
   border: 2px solid #008744;
   color: #008744;
 }
 
-.kb-results-header #toggle-model1.clicked {
+#toggle-model1.clicked {
   background: #008744;
   color: black;
 }
 
-.kb-results-header #toggle-model2 {
-  top: 5px;
-  left: 220px;
+#toggle-model2 {
   display: none;
   border: 2px solid #ffa700;
   color: #ffa700;
 }
 
-.kb-results-header #toggle-model2.clicked {
+#toggle-model2.clicked {
   background: #ffa700;
   color: black;
 }
 
-.kb-results-header #toggle-model3 {
-  top: 5px;
-  left: 330px;
+#toggle-model3 {
   display: none;
   border: 2px solid #d62d20;
   color: #d62d20;
 }
 
-.kb-results-header #toggle-model3.clicked {
+#toggle-model3.clicked {
   background: #d62d20;
   color: black;
 }
-
-.kb-results-header #lines {
-  top: 40px;
-  left: 10px;
+ #lines {
   display: none;
   border: 2px solid #e5e3e3;
   color: #e5e3e3;
   padding: 2px 2px;
 }
-.kb-results-header #CDR {
-  top: 40px;
-  left: 50px;
+
+ #CDR {
   display: none;
   border: 2px solid #e5e3e3;
   color: #e5e3e3;
@@ -207,6 +214,7 @@ html, body {
 }
 
 .kb-results-header #picked-atom-name {
+      position: absolute;
   top: 700px;
   left: 10px;
   display: none;
@@ -215,8 +223,8 @@ html, body {
   padding: 2px 2px;
 }
 
-.kb-results-header .style {
-  position: absolute;
+ .style {
+  /* position: absolute; */
   padding: 5px 25px;
   background: transparent;
   border: 2px solid #e5e3e3;
@@ -227,7 +235,7 @@ html, body {
   outline: none;
 }
 
-.kb-results-header .style:active {
+ .style:active {
   background: #e5e3e3;
   color: black;
 }

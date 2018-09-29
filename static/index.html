@@ -4,12 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <title>AbPredict</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="ab.ico" type="image/x-icon">
 
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <link rel="stylesheet" href="all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
   <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css'>
   <link rel='stylesheet prefetch' href='https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css'>
-  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Indie+Flower|Lato|Montserrat|Open+Sans'>
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Indie+Flower|Lato|Montserrat|Open+Sans|Alegreya+Sans+SC'>
   <link rel='stylesheet prefetch' href='//rawgit.com/Wikiki/bulma-pageloader/master/dist/css/bulma-pageloader.min.css'>
 
   <link rel="stylesheet" href="css/style.css">
@@ -20,32 +21,36 @@
     <span class="title">Getting your protein shaked...</span>
   </div>
   <div id="kb-form">
-    <div class="navbar-brand">
-      <a class="navbar-item">Abpredict</a>
-      <img src="WIS.svg"/>
-    </div>
-    <form id="fasta-form" class="container" data-parsley-validate>
-      <div class="card">
-        <div class="card-content">
-          <div class="content">
-            <div class="field">
-              <label class="label">Email</label>
-              <div class="control has-icons-left">
-                <input class="input gl-email" id="email" type="email" placeholder="joe@academia.ac.il" data-parsley-trigger="change" data-parsley-required="true" data-parsley-type="email">
-                <div id="email_msg"></div>
-                <span class="icon is-small is-left">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">Abpredict</a>
+      </div>
+      <div class="navbar-middle-content"></div>
+      <img class="weizman-logo" src="WIS.svg"/>
+</nav>
+
+      <form id="fasta-form" class="container" data-parsley-validate>
+        <div class="card">
+          <div class="card-content">
+            <div class="content">
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control has-icons-left">
+                  <input class="input gl-email" id="email" type="email" placeholder="joe@academia.ac.il" data-parsley-trigger="change" data-parsley-required="true" data-parsley-type="email">
+                  <div id="email_msg"></div>
+                  <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
+                </div>
               </div>
-            </div>
 
-            <div class="field">
-              <label id="test" class="label tooltip">Fasta
+              <div class="field">
+                <label id="test" class="label tooltip">Fasta
                    <span class="tooltiptext">Enter either a fasta text file or paste into window below</span>
                 </label>
-              <div class="control">
-                <div class="file">
-                  <label class="file-label">
+                <div class="control">
+                  <div class="file">
+                    <label class="file-label">
                       <input id="file-input" class="file-input" type="file" name="resume"
                         data-parsley-trigger="change"
                         data-parsley-fastafile="">
@@ -58,24 +63,24 @@
                         </span>
                       </span>
                     </label>
-                  <a class="remove-file" id="remove-file">
+                    <a class="remove-file" id="remove-file">
                     <i class="fas fa-times-circle"></i>
                   </a>
+                  </div>
                 </div>
-              </div>
-              <div class="control  has-icons-left has-icons-right">
-                <textarea id="textareabox" type="text" class="textarea gl-fasta" placeholder=">Header
+                <div class="control  has-icons-left has-icons-right">
+                  <textarea id="textareabox" type="text" class="textarea gl-fasta" placeholder=">Header
 ASJDKASJKDAJSKDJASKDASJDKASD" data-parsley-trigger="change" data-parsley-fastaformat=""></textarea>
-                <div id="charNum"></div>
-                <span class="icon is-small is-left">
+                  <div id="charNum"></div>
+                  <span class="icon is-small is-left">
                     <i class="fas fa-dna"></i>
                   </span>
+                </div>
               </div>
-            </div>
 
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
+              <div class="field">
+                <div class="control">
+                  <label class="checkbox">
                     <input type="checkbox"
                     name="TOS"
                     data-parsley-trigger="change"
@@ -83,41 +88,51 @@ ASJDKASJKDAJSKDJASKDASJDKASD" data-parsley-trigger="change" data-parsley-fastafo
                     data-parsley-mincheck="1">
                     I agree to the <a href="/FuncLib_TermsOfUse.pdf" target="_blank">Terms of Services</a>
                   </label>
+                </div>
               </div>
-            </div>
 
+            </div>
           </div>
+          <footer class="card-footer">
+            <div class="control">
+              <button id="form-submit" class="button submit-button" disabled>Submit</button>
+            </div>
+          </footer>
         </div>
-        <footer class="card-footer">
-          <div class="control">
-            <button id="form-submit" class="button submit-button" disabled>Submit</button>
-          </div>
-        </footer>
-      </div>
-      </from>
+        </from>
   </div>
   <div id="kb-results">
-    <h2 id="fasta_name" class="content-header">
-      <button id="lines2"  onclick="download_file()" class = "style-header">Download</button>
-    </h2>
-    <div class="kb-results-header">
-      <div id='picked-atom-name' class="style" style='text-align:center;'>&nbsp;</div>
-
-      <button id="enlarge-button" class = "style">Enlarge</button>
-      <button id="toggle-model1"  onclick="display_model(0)" class = "style">model1</button>
-      <button id="toggle-model2"  onclick="display_model(1)" class = "style">model2</button>
-      <button id="toggle-model3"  onclick="display_model(2)" class = "style">model3</button>
-      <button id="lines"  onclick="change_to_lines()" class = "style">lines</button>
-      <button id="CDR"  onclick="toggle_CDR_lables()" class = "style">Show CDR lables</button>
-      <div id="viewer" class="viewer-class">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">Abpredict</a>
       </div>
-
-
-    </div>
-    <div class="content">
-      <div id="chartContainer" style="600px;">
+      <div class="navbar-middle-content">
+        <div id="fasta_name" class="content-header">
+        </div>
+        <button id="toggle-model1"  onclick="display_model(0)" class = "style">model1</button>
+        <button id="toggle-model2"  onclick="display_model(1)" class = "style">model2</button>
+        <button id="toggle-model3"  onclick="display_model(2)" class = "style">model3</button>
+  <button id="download"  onclick="download_file()" class = "style-header">Download</button>
       </div>
-    </div>
+      <img class="weizman-logo" src="WIS.svg"/>
+</nav>
+
+
+      <div class="kb-results-header">
+        <div id='picked-atom-name' class="style" style='text-align:center;'>&nbsp;</div>
+
+        <button id="enlarge-button" class = "style">Enlarge</button>
+        <button id="lines"  onclick="change_to_lines()" class = "style">lines</button>
+        <button id="CDR"  onclick="toggle_CDR_lables()" class = "style">Show CDR lables</button>
+        <div id="viewer" class="viewer-class">
+        </div>
+
+
+      </div>
+      <div class="content">
+        <div id="chartContainer" style="600px;">
+        </div>
+      </div>
 
   </div>
 

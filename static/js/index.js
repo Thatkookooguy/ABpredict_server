@@ -2,9 +2,9 @@ var jobData;
 var jobId;
 var viewer;
 var fasta;
-var name;
+var name="temp";
 
-//x=document.getElementById("fasta_name").innerText="Hello JavaScript!";;  // Find the elements
+x=document.getElementById("fasta_name").innerText=name;;  // Find the elements
 $(document).ready(onReady);
 
 $('#remove-file').click(function() {
